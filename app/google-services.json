@@ -1,0 +1,99 @@
+{
+  "project_info": {
+    "project_number": "261102949750",
+    "firebase_url": "https://holamundo-aabcd.firebaseio.com",
+    "project_id": "holamundo-aabcd",
+    "storage_bucket": "holamundo-aabcd.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:261102949750:android:d86f9b95e5f04e29",
+        "android_client_info": {
+          "package_name": "com.misproyectos.otr.ejemplo_firebase"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "261102949750-v557gd5il6clef0hjs35jvjfis02hlfr.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.misproyectos.otr.ejemplo_firebase",
+            "certificate_hash": "8a1a630502df03146b2e4686be7349157d4c4eb9"
+          }
+        },
+        {
+          "client_id": "261102949750-u9m0vsukkmbtumdt76v7f2ksq2ohqf99.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBp7PwexcBHtI7FJ_w9zJpPROBWhqJLIJU"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "261102949750-u9m0vsukkmbtumdt76v7f2ksq2ohqf99.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:261102949750:android:d4b2d931dfa80344",
+        "android_client_info": {
+          "package_name": "com.otr.ejemplo_autenticacion_firebase"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "261102949750-vmecbbuh35n727pdi5omv2oohfj2nr6u.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.otr.ejemplo_autenticacion_firebase",
+            "certificate_hash": "661360c51abfdef4f39167dc54841f9fe1e5f9b8"
+          }
+        },
+        {
+          "client_id": "261102949750-u9m0vsukkmbtumdt76v7f2ksq2ohqf99.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBp7PwexcBHtI7FJ_w9zJpPROBWhqJLIJU"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "261102949750-u9m0vsukkmbtumdt76v7f2ksq2ohqf99.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
