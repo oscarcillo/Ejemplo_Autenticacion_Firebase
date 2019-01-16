@@ -1,12 +1,19 @@
 package com.otr.ejemplo_autenticacion_firebase;
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.inputmethodservice.Keyboard;
 import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.NotificationCompatSideChannelService;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Patterns;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -21,6 +28,8 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     EditText editTextEmail, editTextPassword;
     ProgressBar barraProgreso;
+    //
+    final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 500;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,9 +44,24 @@ public class MainActivity extends AppCompatActivity {
         barraProgreso = (ProgressBar) findViewById(R.id.barraprogresomain);
     }
 
+    @Override
+    public void onStart(){
+        super.onStart();
+
+        if(mAuth.getCurrentUser() != null){
+            finish();
+            startActivity(new Intent(this, ProfileActivity.class));
+        }
+    }
+
+    /**
+     * Método para cambiar entre actividades
+     * @param v Vista que activa este método
+     */
     public void cambiarActividad(View v){
         switch(v.getId()){
             case R.id.textoRegistro:{
+                finish();
                 Intent i = new Intent(this, SignupActivity.class);
                 startActivity(i);
             }break;
@@ -50,7 +74,12 @@ public class MainActivity extends AppCompatActivity {
 
     }//..
 
+    /**
+     * Método para loguear al usuario
+     * @param v Vista que activa este método
+     */
     public void userLogin(View v){
+        hideKeyboard(this);
         String email = editTextEmail.getText().toString();
         String password = editTextPassword.getText().toString();
 
@@ -84,6 +113,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()){
+                    finish();
                     barraProgreso.setVisibility(View.INVISIBLE);
                     Intent i = new Intent(getApplicationContext(), ProfileActivity.class);
                     getIntent().addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -97,4 +127,20 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+    /**
+     * Método para ocultar el teclado
+     * @param activity Contexto
+     */
+    public static void hideKeyboard(Activity activity) {
+        InputMethodManager imm = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        //Find the currently focused view, so we can grab the correct window token from it.
+        View view = activity.getCurrentFocus();
+        //If no view currently has focus, create a new one, just so we can grab a window token from it
+        if (view == null) {
+            view = new View(activity);
+        }
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
+
 }

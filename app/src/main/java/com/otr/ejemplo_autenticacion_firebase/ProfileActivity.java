@@ -4,12 +4,26 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import java.io.IOException;
 
@@ -21,11 +35,21 @@ public class ProfileActivity extends AppCompatActivity {
     EditText nombreUsuario;
 
     Uri uriProfileImage;
+    ProgressBar progreso;
+    String profileImageUrl;
+
+    FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+        //
+        imagen = findViewById(R.id.imagenCamara);
+        progreso = findViewById(R.id.barraprogresoimagen);
+        nombreUsuario = findViewById(R.id.textoNombreUsuario);
+        //
+        mAuth = FirebaseAuth.getInstance();
     }
 
     //
@@ -41,7 +65,7 @@ public class ProfileActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         //Comprobar que la imagen se ha seleccionado correctamente
-        if(requestCode == CHOOSE_IMAGE && requestCode == RESULT_OK && data != null
+        if(requestCode == CHOOSE_IMAGE && resultCode == RESULT_OK && data != null
                 && data.getData()!=null){
             //almacenar la imagen en una variable
             uriProfileImage = data.getData();
@@ -64,5 +88,78 @@ public class ProfileActivity extends AppCompatActivity {
         i.setType("image/*");
         i.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(Intent.createChooser(i, "Elige una imagen"), CHOOSE_IMAGE);
+    }
+
+    /**
+     * Método que sube imagenes de usuario al Storage de Firebase
+     */
+    public void uploadImageToFirebaseStorage(){
+        final StorageReference profileImageRef = FirebaseStorage.getInstance().
+                getReference("profilepics/"+System.currentTimeMillis() + ".jpg");
+
+        if(uriProfileImage != null){
+            progreso.setVisibility(View.VISIBLE);
+            profileImageRef.putFile(uriProfileImage).addOnSuccessListener(
+                    new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    progreso.setVisibility(View.INVISIBLE);
+                    profileImageUrl = profileImageRef.getDownloadUrl().toString();
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    progreso.setVisibility(View.INVISIBLE);
+                    Toast.makeText(ProfileActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
+            progreso.setVisibility(View.INVISIBLE);
+            profileImageUrl = profileImageRef.getDownloadUrl().toString();
+        }
+    }
+
+    /**
+     * Método que sube la información del usuario (imagen, nombre de usuario) al Storage de Firebase
+     */
+    public void saveUserInformation(View v){
+        String displayName = nombreUsuario.getText().toString();
+
+        if(displayName.isEmpty()) {
+            nombreUsuario.setError("El nombre de usuario no puede estar vacío");
+            nombreUsuario.requestFocus();
+            return;
+        }
+
+        if(nombreUsuario.length()<6){
+            nombreUsuario.setError("El nombre debe tener al menos 6 caracteres");
+            nombreUsuario.requestFocus();
+            return;
+        }
+
+        //subir imagen a Firebase
+        uploadImageToFirebaseStorage();
+        //
+
+        FirebaseUser user = mAuth.getCurrentUser();
+
+        if(user != null && profileImageUrl != null){
+                UserProfileChangeRequest profile = new UserProfileChangeRequest.Builder().
+                        setDisplayName(displayName).setPhotoUri(Uri.parse(profileImageUrl)).build();
+                user.updateProfile(profile).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if(task.isSuccessful()){
+                            Toast.makeText(ProfileActivity.this,
+                                    "El perfil ha sido actualizado",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                        else{
+                            Toast.makeText(ProfileActivity.this,
+                                    "El perfil no ha sido actualizado correctamente",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+        }
     }
 }
