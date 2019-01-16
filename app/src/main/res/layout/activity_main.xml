@@ -9,7 +9,7 @@
     tools:context=".MainActivity">
 
     <EditText
-        android:id="@+id/botonCorreo"
+        android:id="@+id/textoCorreo"
         android:layout_width="325dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
@@ -18,7 +18,7 @@
         android:inputType="textEmailAddress" />
 
     <EditText
-        android:id="@+id/botonContrasena"
+        android:id="@+id/textoContrasena"
         android:layout_width="325dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
@@ -32,6 +32,7 @@
         android:layout_width="128dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="35dp"
+        android:onClick="userLogin"
         android:text="LOGIN" />
 
     <TextView
@@ -42,5 +43,11 @@
         android:text="No tienes cuenta? Registrate"
         android:textColor="@color/colorAccent"
         android:textSize="18sp" />
+
+    <ProgressBar
+        android:id="@+id/barraprogresomain"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"/>
 
 </LinearLayout>
