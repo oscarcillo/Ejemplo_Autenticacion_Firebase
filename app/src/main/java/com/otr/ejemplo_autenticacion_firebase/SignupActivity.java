@@ -1,22 +1,26 @@
 package com.otr.ejemplo_autenticacion_firebase;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 
 public class SignupActivity extends AppCompatActivity {
 
     EditText editTextEmail, editTextPassword;
     private FirebaseAuth mAuth;
+    ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,9 +31,10 @@ public class SignupActivity extends AppCompatActivity {
         editTextPassword = findViewById(R.id.textoContrasenaRegistro);
         //
         mAuth = FirebaseAuth.getInstance();
+        progressBar = (ProgressBar) findViewById(R.id.barraprogreso);
     }
 
-    public void registerUser(View v){
+    public void registrarUsuario(View v){
         String email = editTextEmail.getText().toString().trim();
         String password = editTextPassword.getText().toString().trim();
 
@@ -57,6 +62,8 @@ public class SignupActivity extends AppCompatActivity {
             return;
         }
 
+        progressBar.setVisibility(View.VISIBLE);
+
         mAuth.createUserWithEmailAndPassword(email, password).
                 addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
@@ -64,9 +71,32 @@ public class SignupActivity extends AppCompatActivity {
                 if(task.isSuccessful()) {
                     Toast.makeText(getApplicationContext(), "El usuario se ha registrado",
                             Toast.LENGTH_SHORT).show();
+                    progressBar.setVisibility(View.INVISIBLE);
+                    Intent i = new Intent(getApplicationContext(), MainActivity.class);
+                    getIntent().addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(i);
+                }
+                else{
+                    progressBar.setVisibility(View.INVISIBLE);
+                    if(task.getException() instanceof FirebaseAuthUserCollisionException)
+                        Toast.makeText(getApplicationContext(), "El usuario ya está registrado",
+                                Toast.LENGTH_SHORT).show();
+                    else
+                        Toast.makeText(getApplicationContext(), task.getException().getMessage(),
+                                Toast.LENGTH_SHORT).show();
                 }
             }
         });
 
+    }
+
+    public void cambiarActividad(View v) {
+        switch (v.getId()) {
+            case R.id.textoVolver: {
+                Intent i = new Intent(this, MainActivity.class);
+                startActivity(i);
+            }
+            break;
+        }
     }
 }

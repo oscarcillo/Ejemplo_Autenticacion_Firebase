@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:orientation="vertical"
+    tools:context=".ProfileActivity">
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_weight="1"
+        android:text="Pulsa en la cámara para seleccionar una imagen de perfil"
+        android:textAlignment="center"
+        android:textSize="20sp" />
+
+    <ImageView
+        android:id="@+id/imagenCamara"
+        android:layout_width="227dp"
+        android:layout_height="201dp"
+        android:layout_marginTop="15dp"
+        android:layout_weight="1"
+        android:onClick="showImageChooser"
+        app:srcCompat="@android:drawable/ic_menu_camera" />
+
+    <EditText
+        android:id="@+id/textoNombreUsuario"
+        android:layout_width="311dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_weight="1"
+        android:ems="10"
+        android:hint="Introduce nombre de usuario"
+        android:inputType="textPersonName" />
+
+    <Button
+        android:id="@+id/botonGuardar"
+        android:layout_width="111dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_weight="1"
+        android:text="Guardar" />
+</LinearLayout>

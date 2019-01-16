@@ -67,6 +67,14 @@
           }
         },
         {
+          "client_id": "261102949750-g26aajfjc3thaja2o9faoql9ilruh92i.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.otr.ejemplo_autenticacion_firebase",
+            "certificate_hash": "8a1a630502df03146b2e4686be7349157d4c4eb9"
+          }
+        },
+        {
           "client_id": "261102949750-u9m0vsukkmbtumdt76v7f2ksq2ohqf99.apps.googleusercontent.com",
           "client_type": 3
         }
