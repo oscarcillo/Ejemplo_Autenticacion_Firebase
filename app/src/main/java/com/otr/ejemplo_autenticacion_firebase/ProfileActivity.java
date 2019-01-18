@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -50,9 +51,43 @@ public class ProfileActivity extends AppCompatActivity {
         nombreUsuario = findViewById(R.id.textoNombreUsuario);
         //
         mAuth = FirebaseAuth.getInstance();
+        //cargar informacion del usuario
+        loadUserInformation();
     }
 
     //
+    @Override
+    public void onStart(){
+        super.onStart();
+        //volver a la actividad principal si el usuario no está logueado
+        if(mAuth.getCurrentUser() == null){
+            finish();
+            startActivity(new Intent(this, MainActivity.class));
+        }
+    }
+    //
+
+    /**
+     * Metodo que carga la información del usuario al iniciar la actividad si
+     * la imagen de perfil o el nombre de usuario están configurados.
+     */
+    public void loadUserInformation(){
+        FirebaseUser user = mAuth.getCurrentUser();
+
+        if(user != null){
+            if(user.getPhotoUrl() != null){
+                Glide.with(this)
+                        .load(user.getPhotoUrl().toString())
+                        .into(imagen);
+            }
+            if(user.getDisplayName() != null){
+
+            }
+        }
+
+        //String photoUrl = user.getPhotoUrl().toString();
+       // String displayName = user.getDisplayName();
+    }
 
     /**
      * Mostrar la imagen seleccionada en la actividad
