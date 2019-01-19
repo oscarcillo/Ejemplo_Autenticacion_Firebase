@@ -85,10 +85,10 @@ public class ProfileActivity extends AppCompatActivity {
      */
     public void loadUserInformation(){
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        progreso.setVisibility(View.VISIBLE);
 
         if(user != null){
             if(user.getPhotoUrl() != null){
+                progreso.setVisibility(View.VISIBLE);
                 //cargar de nuevo la url de la imagen en la variable para luego subirla a servidor
                 profileImageUrl = user.getPhotoUrl().toString();
                 //
@@ -203,6 +203,7 @@ public class ProfileActivity extends AppCompatActivity {
      */
     public void saveUserInformation(View v){
         String displayName = nombreUsuario.getText().toString();
+        MainActivity.hideKeyboard(this);
 
         if(displayName.isEmpty()) {
             nombreUsuario.setError("El nombre de usuario no puede estar vacío");

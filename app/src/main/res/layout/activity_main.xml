@@ -8,6 +8,16 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="135dp"
+        android:layout_height="wrap_content"
+        android:text="LOG-IN"
+        android:textAlignment="center"
+        android:textColor="@color/colorAccent"
+        android:textSize="27sp"
+        android:layout_marginBottom="25dp"/>
+
     <EditText
         android:id="@+id/textoCorreo"
         android:layout_width="325dp"
