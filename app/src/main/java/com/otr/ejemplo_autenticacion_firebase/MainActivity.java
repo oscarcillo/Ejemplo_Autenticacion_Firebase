@@ -49,8 +49,8 @@ public class MainActivity extends AppCompatActivity {
         super.onStart();
 
         if(mAuth.getCurrentUser() != null){
-            finish();
-            startActivity(new Intent(this, ProfileActivity.class));
+            //startActivity(new Intent(this, ProfileActivity.class));
+            //finish();
         }
     }
 

@@ -93,6 +93,7 @@ public class SignupActivity extends AppCompatActivity {
     public void cambiarActividad(View v) {
         switch (v.getId()) {
             case R.id.textoVolver: {
+                finish();
                 Intent i = new Intent(this, MainActivity.class);
                 startActivity(i);
             }
