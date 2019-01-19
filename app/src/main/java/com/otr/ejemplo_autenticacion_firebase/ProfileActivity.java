@@ -89,6 +89,9 @@ public class ProfileActivity extends AppCompatActivity {
 
         if(user != null){
             if(user.getPhotoUrl() != null){
+                //cargar de nuevo la url de la imagen en la variable para luego subirla a servidor
+                profileImageUrl = user.getPhotoUrl().toString();
+                //
                 Glide.with(this).load(user.getPhotoUrl()).listener(new RequestListener<Drawable>() {
                     @Override
                     public boolean onLoadFailed(@Nullable GlideException e, Object model,
