@@ -41,16 +41,16 @@ public class MainActivity extends AppCompatActivity {
         editTextEmail = findViewById(R.id.textoCorreo);
         editTextPassword = findViewById(R.id.textoContrasena);
         //
-        barraProgreso = (ProgressBar) findViewById(R.id.barraprogresomain);
+        barraProgreso = findViewById(R.id.barraprogresomain);
     }
 
     @Override
     public void onStart(){
         super.onStart();
 
-        if(mAuth.getCurrentUser() != null){
-            //startActivity(new Intent(this, ProfileActivity.class));
-            //finish();
+        if(mAuth.getCurrentUser() != null && mAuth.getCurrentUser().isEmailVerified()){
+            startActivity(new Intent(this, ProfileActivity.class));
+            finish();
         }
     }
 
@@ -61,9 +61,9 @@ public class MainActivity extends AppCompatActivity {
     public void cambiarActividad(View v){
         switch(v.getId()){
             case R.id.textoRegistro:{
-                finish();
                 Intent i = new Intent(this, SignupActivity.class);
                 startActivity(i);
+                finish();
             }break;
             case R.id.textoVolver:{
                 Intent i = new Intent(this, MainActivity.class);
@@ -113,15 +113,24 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()){
-                    finish();
                     barraProgreso.setVisibility(View.INVISIBLE);
-                    Intent i = new Intent(getApplicationContext(), ProfileActivity.class);
-                    getIntent().addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    startActivity(i);
+
+                    //comprobar que el usuario tiene el email verificado
+                    if(mAuth.getCurrentUser().isEmailVerified()){
+                        Intent i = new Intent(getApplicationContext(), ProfileActivity.class);
+                        getIntent().addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(i);
+                        finish();
+                    }
+                    else
+                        Toast.makeText(getApplicationContext(),
+                                "Esta cuenta aun no ha sido verificada",
+                                Toast.LENGTH_SHORT).show();
                 }
                 else{
                     barraProgreso.setVisibility(View.INVISIBLE);
-                    Toast.makeText(getApplicationContext(), task.getException().getMessage(),
+                    Toast.makeText(getApplicationContext(),
+                            "El usuario no existe o datos mal introducidos",
                             Toast.LENGTH_SHORT).show();
                 }
             }

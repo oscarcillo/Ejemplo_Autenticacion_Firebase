@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -238,5 +239,16 @@ public class ProfileActivity extends AppCompatActivity {
                 }
             });
         }
+    }
+
+    /**
+     * Método que cierra la sesión de usuario actual y te lleva a la actividad principal
+     * @param v Vista que activa este método
+     */
+    public void cerrarSesion(View v){
+        mAuth.signOut();
+        Intent i = new Intent(this, MainActivity.class);
+        startActivity(i);
+        finish();
     }
 }

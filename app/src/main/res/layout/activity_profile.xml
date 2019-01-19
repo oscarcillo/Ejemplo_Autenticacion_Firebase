@@ -21,7 +21,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="237dp">
+        android:layout_height="232dp">
 
         <ImageView
             android:id="@+id/imagenCamara"
@@ -53,7 +53,7 @@
         android:id="@+id/textoNombreUsuario"
         android:layout_width="311dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="7dp"
         android:layout_weight="1"
         android:ems="10"
         android:hint="Introduce nombre de usuario"
@@ -61,10 +61,18 @@
 
     <Button
         android:id="@+id/botonGuardar"
-        android:layout_width="111dp"
+        android:layout_width="156dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:layout_weight="1"
         android:onClick="saveUserInformation"
         android:text="Guardar" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="157dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:onClick="cerrarSesion"
+        android:text="Cerrar sesión" />
 </LinearLayout>

@@ -15,6 +15,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
+import com.google.firebase.auth.FirebaseUser;
 
 public class SignupActivity extends AppCompatActivity {
 
@@ -75,6 +76,12 @@ public class SignupActivity extends AppCompatActivity {
                     Intent i = new Intent(getApplicationContext(), MainActivity.class);
                     getIntent().addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(i);
+                    finish();
+                    //enviar email de verificacion
+                    FirebaseUser user = mAuth.getCurrentUser();
+                    user.sendEmailVerification();
+                    Toast.makeText(getApplicationContext(), "Se ha enviado un correo para verificar tu cuenta",
+                            Toast.LENGTH_SHORT).show();
                 }
                 else{
                     progressBar.setVisibility(View.INVISIBLE);
@@ -93,9 +100,9 @@ public class SignupActivity extends AppCompatActivity {
     public void cambiarActividad(View v) {
         switch (v.getId()) {
             case R.id.textoVolver: {
-                finish();
                 Intent i = new Intent(this, MainActivity.class);
                 startActivity(i);
+                finish();
             }
             break;
         }
