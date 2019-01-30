@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">Ejemplo_Autenticacion_Firebase</string>
+
+    <array name="genres">
+        <item>Rock</item>
+        <item>Punk</item>
+        <item>Grunge</item>
+        <item>Electronica</item>
+    </array>
+
 </resources>

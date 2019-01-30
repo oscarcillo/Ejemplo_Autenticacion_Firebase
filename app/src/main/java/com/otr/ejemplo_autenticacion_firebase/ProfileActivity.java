@@ -9,7 +9,11 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -243,11 +247,30 @@ public class ProfileActivity extends AppCompatActivity {
 
     /**
      * Método que cierra la sesión de usuario actual y te lleva a la actividad principal
-     * @param v Vista que activa este método
+     *
      */
-    public void cerrarSesion(View v){
+    public void cerrarSesion(){
         mAuth.signOut();
         Intent i = new Intent(this, MainActivity.class);
+        startActivity(i);
+        finish();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        cerrarSesion();
+        return true;
+    }
+
+    public void irActividadDatos(View v){
+        Intent i = new Intent(this, DatosActivity.class);
         startActivity(i);
         finish();
     }

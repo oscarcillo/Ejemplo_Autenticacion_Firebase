@@ -69,10 +69,11 @@
         android:text="Guardar" />
 
     <Button
-        android:id="@+id/button"
-        android:layout_width="157dp"
+        android:id="@+id/botonDatos"
+        android:layout_width="156dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:onClick="cerrarSesion"
-        android:text="Cerrar sesión" />
+        android:onClick="irActividadDatos"
+        android:text="Datos" />
+
 </LinearLayout>
