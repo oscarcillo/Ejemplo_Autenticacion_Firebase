@@ -12,10 +12,12 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".DatosActivity"
-                  android:windowSoftInputMode="adjustPan">
+        <activity android:name=".AddTrackActivity"
+            android:windowSoftInputMode="adjustPan"></activity>
 
-        </activity>
+        <activity
+            android:name=".DatosActivity"
+            android:windowSoftInputMode="adjustPan"></activity>
 
         <activity android:name=".MainActivity">
             <intent-filter>
@@ -24,6 +26,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity android:name=".SignupActivity" />
         <activity android:name=".ProfileActivity" />
     </application>

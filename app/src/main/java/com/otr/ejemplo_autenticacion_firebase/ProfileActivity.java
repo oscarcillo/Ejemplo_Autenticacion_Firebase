@@ -249,12 +249,6 @@ public class ProfileActivity extends AppCompatActivity {
      * Método que cierra la sesión de usuario actual y te lleva a la actividad principal
      *
      */
-    public void cerrarSesion(){
-        mAuth.signOut();
-        Intent i = new Intent(this, MainActivity.class);
-        startActivity(i);
-        finish();
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -265,7 +259,10 @@ public class ProfileActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        cerrarSesion();
+        mAuth.signOut();
+        Intent i = new Intent(this, MainActivity.class);
+        startActivity(i);
+        finish();
         return true;
     }
 
