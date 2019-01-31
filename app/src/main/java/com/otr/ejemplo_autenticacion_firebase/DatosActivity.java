@@ -9,11 +9,16 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 public class DatosActivity extends AppCompatActivity {
 
     EditText editTextName;
     Button buttonAdd;
     Spinner spinnerGenres;
+
+    DatabaseReference databaseArtists;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,23 +28,20 @@ public class DatosActivity extends AppCompatActivity {
         editTextName = findViewById(R.id.editTextName);
         buttonAdd = findViewById(R.id.buttonAddArtist);
         spinnerGenres = findViewById(R.id.spinnerGenres);
-
-        //onclick listener
-        buttonAdd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
+        //
+        databaseArtists = FirebaseDatabase.getInstance().getReference("artists");
     }
 
-    private void AddArtist(){
+    public void addArtist(View v){
         String name = editTextName.getText().toString().trim();
         String genre = spinnerGenres.getSelectedItem().toString();
 
-        if(!TextUtils.isEmpty(name))
-            ;
-        else
+        if(!TextUtils.isEmpty(name)) {
+            String id = databaseArtists.push().getKey();
+            Artist artist = new Artist(id, name, genre);
+            databaseArtists.child(id).setValue(artist);
+            Toast.makeText(this, "Artista añadido", Toast.LENGTH_SHORT).show();
+        }else
             Toast.makeText(this, "Tienes que introducir un nombre",
                     Toast.LENGTH_SHORT).show();
     }

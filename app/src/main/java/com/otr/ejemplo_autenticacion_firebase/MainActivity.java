@@ -1,14 +1,8 @@
 package com.otr.ejemplo_autenticacion_firebase;
 
-import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.inputmethodservice.Keyboard;
 import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.NotificationCompatSideChannelService;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Patterns;
@@ -28,8 +22,6 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     EditText editTextEmail, editTextPassword;
     ProgressBar barraProgreso;
-    //
-    final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 500;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

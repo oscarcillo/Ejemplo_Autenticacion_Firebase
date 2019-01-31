@@ -28,5 +28,6 @@
         android:id="@+id/buttonAddArtist"
         android:layout_width="136dp"
         android:layout_height="wrap_content"
+        android:onClick="addArtist"
         android:text="Añadir Artista" />
 </LinearLayout>
