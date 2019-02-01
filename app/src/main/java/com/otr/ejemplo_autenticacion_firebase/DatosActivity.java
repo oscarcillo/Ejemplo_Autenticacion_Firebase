@@ -41,8 +41,10 @@ public class DatosActivity extends AppCompatActivity {
     ProgressBar progreso;
 
     DatabaseReference databaseArtists;
+    DatabaseReference databaseTracks;
 
     List<Artist> artistList;
+    List<Integer> numberSongList;
 
     FirebaseAuth mAuth = FirebaseAuth.getInstance();
 
@@ -60,6 +62,7 @@ public class DatosActivity extends AppCompatActivity {
         databaseArtists = FirebaseDatabase.getInstance().getReference("artists");
         //
         artistList = new ArrayList<>();
+        numberSongList = new ArrayList<>();
 
         //iniciar nueva actividad al seleccionar un artista
         listViewArtists.setOnItemClickListener(new AdapterView.OnItemClickListener() {

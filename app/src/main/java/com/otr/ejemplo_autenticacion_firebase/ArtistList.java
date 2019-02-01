@@ -13,11 +13,13 @@ public class ArtistList extends ArrayAdapter<Artist> {
 
     private Activity context;
     private List<Artist> artistList;
+    private List<Integer> numberList;
 
     public ArtistList(Activity context, List<Artist> artistList){
         super(context, R.layout.layout_artist_list, artistList);
         this.context = context;
         this.artistList = artistList;
+        this.numberList = numberList;
     }
 
     @Override
