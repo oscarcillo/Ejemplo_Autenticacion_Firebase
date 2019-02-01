@@ -6,7 +6,7 @@
     android:orientation="vertical">
 
     <EditText
-        android:id="@+id/editTextNameDialog"
+        android:id="@+id/editTextTrackNameDialog"
         android:layout_width="278dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
@@ -15,21 +15,33 @@
         android:hint="Introduce nuevo nombre"
         android:inputType="textPersonName" />
 
-    <Spinner
-        android:id="@+id/spinnerGenresDialog"
-        android:layout_width="284dp"
+    <LinearLayout
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="15dp"
-        android:entries="@array/genres" />
+        android:orientation="horizontal">
+
+        <SeekBar
+            android:id="@+id/seekBarRatingDialog"
+            android:layout_width="296dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp" />
+
+        <TextView
+            android:id="@+id/textViewRatingDialog"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="0" />
+    </LinearLayout>
 
     <Button
-        android:id="@+id/buttonUpdate"
+        android:id="@+id/buttonUpdateTrack"
         android:layout_width="127dp"
         android:layout_height="wrap_content"
-        android:text="Actualizar"/>
+        android:text="Actualizar" />
 
     <Button
-        android:id="@+id/buttonDelete"
+        android:id="@+id/buttonDeleteTrack"
         android:layout_width="127dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="15dp"

@@ -89,7 +89,7 @@ public class DatosActivity extends AppCompatActivity {
                     posGenre = 0;
                 else if(artist.getArtistGenre().equals("Punk"))
                     posGenre = 1;
-                else if(artist.getArtistGenre().equals("Grunge"))
+                else if(artist.getArtistGenre().equals("Blues"))
                     posGenre = 2;
                 else if(artist.getArtistGenre().equals("Electronica"))
                     posGenre = 3;
@@ -175,6 +175,7 @@ public class DatosActivity extends AppCompatActivity {
         final Button buttonUpdate = dialogView.findViewById(R.id.buttonUpdate);
         final Spinner spinner = dialogView.findViewById(R.id.spinnerGenresDialog);
             spinner.setSelection(genre);
+            final Button buttonDelete = dialogView.findViewById(R.id.buttonDelete);
         //
         dialogBuilder.setTitle("Actualizar artista " + artistName);
         final AlertDialog alertDialog = dialogBuilder.create();
@@ -195,6 +196,17 @@ public class DatosActivity extends AppCompatActivity {
                 }
             }
         });
+
+        buttonDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                deleteArtist(artistId);
+                Toast.makeText(getApplicationContext(),
+                        "El artista y sus canciones han sido eliminadas",
+                        Toast.LENGTH_SHORT).show();
+                alertDialog.dismiss();
+            }
+        });
     }
 
     private boolean updateArtist(String id, String name, String genre){
@@ -205,6 +217,16 @@ public class DatosActivity extends AppCompatActivity {
         db.setValue(artist);
         Toast.makeText(this, "Artista actualizado", Toast.LENGTH_SHORT).show();
 
+        return true;
+    }
+
+    private boolean deleteArtist(String id){
+        //borrar artista
+        DatabaseReference dbArtists = FirebaseDatabase.getInstance().getReference("artists").child(id);
+        dbArtists.removeValue();
+        //borrar canciones del artista
+        DatabaseReference dbTracks = FirebaseDatabase.getInstance().getReference("tracks").child(id);
+        dbTracks.removeValue();
         return true;
     }
 }
