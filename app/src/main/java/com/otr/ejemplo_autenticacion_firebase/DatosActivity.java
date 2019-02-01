@@ -83,7 +83,19 @@ public class DatosActivity extends AppCompatActivity {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 Artist artist = artistList.get(position);
-                showUpdateDialog(artist.getArtistId(), artist.getArtistName());
+                int posGenre = 0;
+
+                if(artist.getArtistGenre().equals("Rock"))
+                    posGenre = 0;
+                else if(artist.getArtistGenre().equals("Punk"))
+                    posGenre = 1;
+                else if(artist.getArtistGenre().equals("Grunge"))
+                    posGenre = 2;
+                else if(artist.getArtistGenre().equals("Electronica"))
+                    posGenre = 3;
+
+
+                showUpdateDialog(artist.getArtistId(), artist.getArtistName(), posGenre);
                 return true;
             }
         });
@@ -152,15 +164,17 @@ public class DatosActivity extends AppCompatActivity {
         return true;
     }
 
-    private void showUpdateDialog(final String artistId, String artistName){
+    private void showUpdateDialog(final String artistId, String artistName, int genre){
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
         LayoutInflater inflater = getLayoutInflater();
         final View dialogView = inflater.inflate(R.layout.update_dialog, null);
         dialogBuilder.setView(dialogView);
         //
         final EditText editTextName = dialogView.findViewById(R.id.editTextNameDialog);
+            editTextName.setText(artistName);
         final Button buttonUpdate = dialogView.findViewById(R.id.buttonUpdate);
         final Spinner spinner = dialogView.findViewById(R.id.spinnerGenresDialog);
+            spinner.setSelection(genre);
         //
         dialogBuilder.setTitle("Actualizar artista " + artistName);
         final AlertDialog alertDialog = dialogBuilder.create();
