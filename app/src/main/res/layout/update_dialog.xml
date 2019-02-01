@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+
+    <EditText
+        android:id="@+id/editTextNameDialog"
+        android:layout_width="278dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="15dp"
+        android:ems="10"
+        android:hint="Introduce nuevo nombre"
+        android:inputType="textPersonName" />
+
+    <Spinner
+        android:id="@+id/spinnerGenresDialog"
+        android:layout_width="284dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="15dp"
+        android:entries="@array/genres" />
+
+    <Button
+        android:id="@+id/buttonUpdate"
+        android:layout_width="127dp"
+        android:layout_height="wrap_content"
+        android:text="Actualizar"
+        android:layout_marginBottom="15dp"/>
+</LinearLayout>

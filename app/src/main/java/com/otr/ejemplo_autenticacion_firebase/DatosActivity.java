@@ -1,22 +1,24 @@
 package com.otr.ejemplo_autenticacion_firebase;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -41,7 +43,6 @@ public class DatosActivity extends AppCompatActivity {
     ProgressBar progreso;
 
     DatabaseReference databaseArtists;
-    DatabaseReference databaseTracks;
 
     List<Artist> artistList;
     List<Integer> numberSongList;
@@ -74,6 +75,16 @@ public class DatosActivity extends AppCompatActivity {
                 i.putExtra(ARTIST_NAME, artist.getArtistName());
                 startActivity(i);
                 finish();
+            }
+        });
+
+        //mostrar dialogo al hacer una pulsacion larga en el spinner
+        listViewArtists.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                Artist artist = artistList.get(position);
+                showUpdateDialog(artist.getArtistId(), artist.getArtistName());
+                return true;
             }
         });
     }
@@ -138,6 +149,48 @@ public class DatosActivity extends AppCompatActivity {
         Intent i = new Intent(this, MainActivity.class);
         startActivity(i);
         finish();
+        return true;
+    }
+
+    private void showUpdateDialog(final String artistId, String artistName){
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = getLayoutInflater();
+        final View dialogView = inflater.inflate(R.layout.update_dialog, null);
+        dialogBuilder.setView(dialogView);
+        //
+        final EditText editTextName = dialogView.findViewById(R.id.editTextNameDialog);
+        final Button buttonUpdate = dialogView.findViewById(R.id.buttonUpdate);
+        final Spinner spinner = dialogView.findViewById(R.id.spinnerGenresDialog);
+        //
+        dialogBuilder.setTitle("Actualizar artista " + artistName);
+        final AlertDialog alertDialog = dialogBuilder.create();
+        alertDialog.show();
+
+        buttonUpdate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String nombre = editTextName.getText().toString().trim();
+                if(!TextUtils.isEmpty(editTextName.toString())){
+                    updateArtist(artistId, nombre, spinner.getSelectedItem().toString());
+                            alertDialog.dismiss();
+                }
+                else {
+                    Toast.makeText(getApplicationContext(),
+                            "El nombre del artista no puede estar vacio",
+                            Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+    private boolean updateArtist(String id, String name, String genre){
+        DatabaseReference db = FirebaseDatabase.getInstance().getReference("artists").child(id);
+
+        Artist artist = new Artist(id, name, genre);
+        Log.e("1", artist.getArtistName() + " - " + artist.getArtistGenre());
+        db.setValue(artist);
+        Toast.makeText(this, "Artista actualizado", Toast.LENGTH_SHORT).show();
+
         return true;
     }
 }
