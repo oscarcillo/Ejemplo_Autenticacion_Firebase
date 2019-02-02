@@ -60,7 +60,7 @@ public class DatosActivity extends AppCompatActivity {
         listViewArtists = findViewById(R.id.listViewArtists);
         progreso = findViewById(R.id.progressBar);
         //
-        databaseArtists = FirebaseDatabase.getInstance().getReference("artists");
+        databaseArtists = FirebaseDatabase.getInstance().getReference("artists").child(mAuth.getUid());
         //
         artistList = new ArrayList<>();
         numberSongList = new ArrayList<>();
@@ -210,7 +210,7 @@ public class DatosActivity extends AppCompatActivity {
     }
 
     private boolean updateArtist(String id, String name, String genre){
-        DatabaseReference db = FirebaseDatabase.getInstance().getReference("artists").child(id);
+        DatabaseReference db = FirebaseDatabase.getInstance().getReference("artists").child(mAuth.getUid()).child(id);
 
         Artist artist = new Artist(id, name, genre);
         Log.e("1", artist.getArtistName() + " - " + artist.getArtistGenre());
@@ -222,7 +222,7 @@ public class DatosActivity extends AppCompatActivity {
 
     private boolean deleteArtist(String id){
         //borrar artista
-        DatabaseReference dbArtists = FirebaseDatabase.getInstance().getReference("artists").child(id);
+        DatabaseReference dbArtists = FirebaseDatabase.getInstance().getReference("artists").child(mAuth.getUid()).child(id);
         dbArtists.removeValue();
         //borrar canciones del artista
         DatabaseReference dbTracks = FirebaseDatabase.getInstance().getReference("tracks").child(id);
