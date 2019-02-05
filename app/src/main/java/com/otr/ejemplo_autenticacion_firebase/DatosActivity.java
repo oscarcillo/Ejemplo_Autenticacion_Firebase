@@ -13,6 +13,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -56,7 +57,17 @@ public class DatosActivity extends AppCompatActivity {
         //
         editTextName = findViewById(R.id.editTextName);
         buttonAdd = findViewById(R.id.buttonAddArtist);
+
+        //
         spinnerGenres = findViewById(R.id.spinnerGenres);
+        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>
+                (this, android.R.layout.simple_spinner_item,
+                        cargarGeneros()); //selected item will look like a spinner set from XML
+        spinnerArrayAdapter.setDropDownViewResource(android.R.layout
+                .simple_spinner_dropdown_item);
+        spinnerGenres.setAdapter(spinnerArrayAdapter);
+        //
+
         listViewArtists = findViewById(R.id.listViewArtists);
         progreso = findViewById(R.id.progressBar);
         //
@@ -228,5 +239,9 @@ public class DatosActivity extends AppCompatActivity {
         DatabaseReference dbTracks = FirebaseDatabase.getInstance().getReference("tracks").child(id);
         dbTracks.removeValue();
         return true;
+    }
+
+    private String[] cargarGeneros(){
+        return new String[4];
     }
 }
