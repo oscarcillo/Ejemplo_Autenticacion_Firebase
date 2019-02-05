@@ -47,6 +47,7 @@ public class DatosActivity extends AppCompatActivity {
 
     List<Artist> artistList;
     List<Integer> numberSongList;
+    String arrayGeneros [];
 
     FirebaseAuth mAuth = FirebaseAuth.getInstance();
 
@@ -60,13 +61,7 @@ public class DatosActivity extends AppCompatActivity {
 
         //
         spinnerGenres = findViewById(R.id.spinnerGenres);
-        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>
-                (this, android.R.layout.simple_spinner_item,
-                        cargarGeneros()); //selected item will look like a spinner set from XML
-        spinnerArrayAdapter.setDropDownViewResource(android.R.layout
-                .simple_spinner_dropdown_item);
-        spinnerGenres.setAdapter(spinnerArrayAdapter);
-        //
+        cargarGeneros(spinnerGenres, 0);
 
         listViewArtists = findViewById(R.id.listViewArtists);
         progreso = findViewById(R.id.progressBar);
@@ -89,22 +84,20 @@ public class DatosActivity extends AppCompatActivity {
             }
         });
 
-        //mostrar dialogo al hacer una pulsacion larga en el spinner
+        //mostrar dialogo al hacer una pulsacion larga en la lista
         listViewArtists.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 Artist artist = artistList.get(position);
                 int posGenre = 0;
 
-                if(artist.getArtistGenre().equals("Rock"))
-                    posGenre = 0;
-                else if(artist.getArtistGenre().equals("Punk"))
-                    posGenre = 1;
-                else if(artist.getArtistGenre().equals("Blues"))
-                    posGenre = 2;
-                else if(artist.getArtistGenre().equals("Electronica"))
-                    posGenre = 3;
+                for(int i = 0; i < arrayGeneros.length; i++){
+                    if(arrayGeneros[i].trim().equals(artist.getArtistGenre().trim())) {
+                        posGenre = i;
+                    }
+                }
 
+                Log.e("holaa", ""+posGenre);
 
                 showUpdateDialog(artist.getArtistId(), artist.getArtistName(), posGenre);
                 return true;
@@ -185,7 +178,8 @@ public class DatosActivity extends AppCompatActivity {
             editTextName.setText(artistName);
         final Button buttonUpdate = dialogView.findViewById(R.id.buttonUpdate);
         final Spinner spinner = dialogView.findViewById(R.id.spinnerGenresDialog);
-            spinner.setSelection(genre);
+            cargarGeneros(spinner, genre);
+            spinner.setSelection(2);
             final Button buttonDelete = dialogView.findViewById(R.id.buttonDelete);
         //
         dialogBuilder.setTitle("Actualizar artista " + artistName);
@@ -241,7 +235,34 @@ public class DatosActivity extends AppCompatActivity {
         return true;
     }
 
-    private String[] cargarGeneros(){
-        return new String[4];
+    private void cargarGeneros(final Spinner spinner, final int genero){
+        DatabaseReference db = FirebaseDatabase.getInstance().getReference("generos");
+        //
+        db.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                int x = (int)dataSnapshot.getChildrenCount();
+                arrayGeneros = new String[x];
+                int i = 0;
+                for(DataSnapshot datos : dataSnapshot.getChildren()){
+                    arrayGeneros[i] = datos.getValue(String.class);
+                   // Log.e("holaa", arrayGeneros[i]);
+                    i++;
+                }
+
+                ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<>(getApplication(),
+                        android.R.layout.simple_spinner_item, arrayGeneros);
+                 spinnerArrayAdapter.setDropDownViewResource(android.R.layout
+                     .simple_spinner_dropdown_item);
+                 spinner.setAdapter(spinnerArrayAdapter);
+                 spinner.setSelection(genero);
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 }

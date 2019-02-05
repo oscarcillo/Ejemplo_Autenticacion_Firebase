@@ -13,6 +13,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -44,6 +45,7 @@ public class AddTrackActivity extends AppCompatActivity {
     TextView numeroRating;
 
     ListView listViewTracks;
+    String arrayGeneros [];
 
     DatabaseReference databaseTracks;
 
@@ -228,4 +230,5 @@ public class AddTrackActivity extends AppCompatActivity {
         //borrar artista
         databaseTracks.child(trackId).removeValue();
     }
+
 }
